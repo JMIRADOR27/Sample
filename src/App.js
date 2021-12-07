@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
+import ReactDataTableApp from './Components/Table.jsx';
 import './App.css';
 
 function App() {
   return (
     <div>
-     
+     <ReactDataTableApp />
     </div>
   );
 }

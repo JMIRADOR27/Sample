@@ -24,7 +24,6 @@ class UsersResource extends JsonResource
             'id'        =>  $this->id,
             'name'       => $this->name,
             'email'      => $this->email,
-            'address'    => $this->address,
             'created_at' => Carbon::parse($this->created_at)->toDayDateTimeString(),
         ];
     }
