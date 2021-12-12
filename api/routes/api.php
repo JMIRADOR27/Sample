@@ -20,8 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     
     return $request->user();
 });
-Route::resource('user', UserController::class);
-// Route::get('user', 'UserController')->name('user.index');
+// Route::resource('user', UserController::class);
+Route::get('/user', [UserController::class, 'index']);
+Route::post('/user', [UserController::class, 'create']);
+
 
 
 

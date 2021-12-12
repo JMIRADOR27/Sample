@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from './Modal';
 
 export default class DataTable extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      show:false,
+      inputName: '',
+      inputEmail: '',
       entities: {
         data: [],
         meta: {
@@ -21,8 +26,32 @@ export default class DataTable extends Component {
       current_page: 1,
       sorted_column: this.props.columns[0],
       offset: 4,
-      order: 'asc',
+      order: 'desc',
     };
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+    this.InputtedName = this.InputtedName.bind(this);
+    this.InputtedEmail = this.InputtedEmail.bind(this);
+    this.handlesubmitCreateForm = this.handlesubmitCreateForm.bind(this);
+  }
+  InputtedName(e) {
+    this.setState({ inputName: e.target.value });
+  }
+  InputtedEmail(e){
+    this.setState({ inputEmail: e.target.value });
+  }
+
+  showModal = () => {
+    this.setState({ show: true });
+  };
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
+
+  handlesubmitCreateForm(e) {
+    e.preventDefault();
+    console.log(this.state.inputEmail);
   }
 
   fetchEntities() {
@@ -118,6 +147,8 @@ export default class DataTable extends Component {
 
   render() {
     return (
+      <div className="container" style={{ marginTop: '10%' }}>
+      <button className="btn-block btn-dark" onClick={this.showModal} style={{ marginBottom: '10px' }}>Create</button>
       <div className="data-table">
         <table className="table table-bordered">
           <thead>
@@ -149,6 +180,8 @@ export default class DataTable extends Component {
             </ul>
           </nav>
         }
+      </div>
+      <Modal show={this.state.show} handleClose={this.hideModal} nameInput={this.InputtedName} emailInput={this.InputtedEmail} submitForm={this.handlesubmitCreateForm}></Modal>
       </div>
     );
   }
