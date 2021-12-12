@@ -5,7 +5,7 @@ export default class ReactDataTableApp extends Component {
 
 
   render() {
-    const columns = ['id', 'name', 'email', 'created_at'];
+    const columns = ['id', 'name', 'email', 'created_at','action'];
     return (
       <DataTable url="/api/user" columns={columns} />
     );
