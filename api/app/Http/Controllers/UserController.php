@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UsersResource;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -46,13 +47,14 @@ class UserController extends Controller
     }
 
    public function create(Request $request){
+       $status = 0;
     $Validation = [
         'name' => 'required',
         'email' => 'required|email'
     ];
     $validator = Validator::make($request->all(),$Validation);
     if($validator->fails()){
-        return 'Invalid Input';
+        return array('status' => $status, 'message' => 'Invalid Input');
     }else{
         try {
             $TableUser = new User;
@@ -60,14 +62,21 @@ class UserController extends Controller
             $TableUser->name = $request->input('name');
             $TableUser->email = $request->input('email');
             $TableUser->save();
+            $status = 1;
             
-            return 'success';
+            return array('status' => $status, 'message' => 'Success');
 
         }catch(Exception $e){
             return $e;
         }
     }
+   }
+   
+   public function destroy($id){
+    $TableUser = User::findOrFail($id);
 
-    
+    $TableUser->delete();
+    return Redirect::back()->withErrors(['msg' => 'Error API!']);
+
    }
 }

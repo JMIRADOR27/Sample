@@ -11,6 +11,7 @@ export default class DataTable extends Component {
       show:false,
       inputName: '',
       inputEmail: '',
+      modification_id: '',
       entities: {
         data: [],
         meta: {
@@ -51,7 +52,24 @@ export default class DataTable extends Component {
 
   handlesubmitCreateForm(e) {
     e.preventDefault();
-    console.log(this.state.inputEmail);
+    let fetchUrl = `${this.props.url}/?name=${this.state.inputName}&email=${this.state.inputEmail}`;
+    axios({method: 'POST',
+    baseURL: 'http://127.0.0.1:8000/',
+    timeout: 30000,
+    url: fetchUrl
+   })
+    .then(response => {
+    if(response.data.status == 1){
+        alert(response.data.message);
+        window.location.reload();
+    }else{
+        alert(response.data.message);
+    }
+
+    })
+    .catch(e => {
+    console.error(e);
+    });
   }
 
   fetchEntities() {
@@ -120,7 +138,7 @@ export default class DataTable extends Component {
       return this.state.entities.data.map(user => {
         return <tr key={ user.id }>
           {Object.keys(user).map(key => <td key={key}>{ user[key] }</td>)}
-          <td><a href={'http://127.0.0.1:8000/api/user_delete/?id=' + user.id} >Delete</a></td>
+          <td><a href={'http://127.0.0.1:8000/api/user/' + user.id}>Delete</a></td>
         </tr>
       })
     } else {
